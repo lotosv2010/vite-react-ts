@@ -1,23 +1,12 @@
-import { useState } from 'react';
-import logo from './assets/logo.svg';
-import Styles from './app.module.scss';
+import PageRoutes from './routes/PageRoutes';
+import { BrowserRouter } from 'react-router-dom';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App = () => {
   return (
-    <div className={Styles.App}>
-      <header>
-        <img src={logo} alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-      </header>
-    </div>
+    <BrowserRouter>
+      <PageRoutes />
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
