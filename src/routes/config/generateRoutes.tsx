@@ -1,3 +1,4 @@
+import React from 'react';
 import { set } from 'lodash';
 import { lazy, Suspense } from 'react';
 
@@ -8,7 +9,6 @@ import { lazy, Suspense } from 'react';
 function generatePathConfig(): Record<string, any> {
   // 扫描 src/pages 下的所有具有路由文件
   const modules = import.meta.glob('/src/pages/**/_*.{ts,tsx}');
-
   const pathConfig = {};
   Object.keys(modules).forEach((filePath) => {
     const routePath = filePath
@@ -67,7 +67,7 @@ function mapPathConfigToRoute(cfg: Record<string, any>): any[] {
  * @param importer
  * @returns
  */
-function wrapSuspense(importer: any) {
+export function wrapSuspense(importer: any) {
   if (!importer) {
     return undefined;
   }
