@@ -1,7 +1,14 @@
 import React from 'react';
+import { observer, inject } from 'mobx-react';
 
-function About() {
-  return <div>About</div>;
+function About({ globalStore, layoutStore }: any) {
+  return (
+    <div>
+      <p>About</p>
+      <p>{globalStore.theme}</p>
+      <p>{layoutStore.pathname}</p>
+    </div>
+  );
 }
 
-export default About;
+export default inject(...['globalStore', 'layoutStore'])(observer(About));

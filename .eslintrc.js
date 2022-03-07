@@ -48,5 +48,6 @@ module.exports = {
     'no-multi-spaces': 1,
     'spaced-comment': ['error', 'always'],
     'no-multiple-empty-lines': ['error', { max: 1 }],
+    'react-hooks/exhaustive-deps': 'off',
   },
 };
