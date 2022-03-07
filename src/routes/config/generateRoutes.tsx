@@ -1,5 +1,5 @@
 import React from 'react';
-import { set } from 'lodash';
+import set from 'lodash/set';
 import { lazy, Suspense } from 'react';
 
 /**
