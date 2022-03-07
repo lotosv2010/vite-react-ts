@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useStores } from '../../hooks/useStore';
+import { useStores } from '@/hooks/useStore';
 import { observer } from 'mobx-react';
 
 function Index() {

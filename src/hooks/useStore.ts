@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { MobXProviderContext } from 'mobx-react';
-import stores from '../stores';
+import stores from '@/stores';
 
 export type StoreType = typeof stores;
 

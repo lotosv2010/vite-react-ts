@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'mobx-react';
-import App from './App';
-import stores from './stores';
-import './index.scss';
+import App from '@/App';
+import stores from '@/stores';
+import '@/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>

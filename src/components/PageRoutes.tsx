@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import { generateRoutes } from '../routes';
+import { generateRoutes } from '@/routes';
 
 function PageRoutes(props: any) {
   let { routes } = props;

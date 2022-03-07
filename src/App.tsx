@@ -1,6 +1,6 @@
-import PageRoutes from './components/PageRoutes';
+import PageRoutes from '@/components/PageRoutes';
 import { BrowserRouter } from 'react-router-dom';
-import routes from './routes/routes';
+import routes from '@/routes/routes';
 
 const App = () => {
   return (
