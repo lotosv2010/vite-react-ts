@@ -14,6 +14,9 @@ function Index() {
   };
   useTitle();
   useEffect(() => {
+    fetch('/api/datav-res/datav/map.json')
+      .then((res) => res.json())
+      .then((data) => console.log(data));
     setTimeout(() => {
       global.setTheme('dark');
       setLan();
