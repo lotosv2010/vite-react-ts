@@ -24,6 +24,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:test": "vite build --mode test",
+    "build:staging": "vite build --mode staging",
     "preview": "vite preview",
     "lint": "npm run lint:js && npm run lint:style && npm run lint:prettier",
     "lint:js": "eslint --cache --ext .js,.jsx,.ts,.tsx --format=pretty ./src",
@@ -39,8 +41,7 @@
     "*.scss": "npm run lint:style",
     "*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
     "*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "dependencies": {

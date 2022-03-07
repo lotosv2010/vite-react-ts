@@ -5,12 +5,14 @@ import cssOption from './config/style';
 import path from 'path';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react(), ...createVitePlugins()],
-  css: cssOption,
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src'),
+export default defineConfig(() => {
+  return {
+    plugins: [react(), ...createVitePlugins()],
+    css: cssOption,
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, 'src'),
+      },
     },
-  },
+  };
 });

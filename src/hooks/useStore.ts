@@ -15,4 +15,4 @@ function useStores<T extends keyof StoreType>(storeName: T) {
   const stores = rootStore as StoreType;
   return stores[storeName] as StoreType[T];
 }
-export { useStores };
+export default useStores;

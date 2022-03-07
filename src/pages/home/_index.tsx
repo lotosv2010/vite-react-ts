@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
-import { useStores } from '@/hooks/useStore';
+import { useStore, useTitle } from '@/hooks';
 import { observer } from 'mobx-react';
 
 function Index() {
-  const global = useStores('globalStore');
-  const layout = useStores('layoutStore');
+  const global = useStore('globalStore');
+  const layout = useStore('layoutStore');
 
   const setLan = async () => {
     const res = await global.setLanguage('en');
+    console.log(import.meta.env);
     console.log(res);
     return res;
   };
+  useTitle();
   useEffect(() => {
     setTimeout(() => {
       global.setTheme('dark');
