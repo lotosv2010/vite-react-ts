@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useStore, useTitle } from '@/hooks';
 import { observer } from 'mobx-react';
 import { getMapData, getUserInfo } from '@/apis/home';
+import { Button } from 'antd';
 
 function Index() {
   const global = useStore('globalStore');
@@ -32,7 +33,6 @@ function Index() {
   useTitle();
   useEffect(() => {
     getData();
-    getUser();
     setTimeout(() => {
       global.setTheme('dark');
       setLan();
@@ -44,6 +44,11 @@ function Index() {
       <p>Home Index</p>
       <p>{global?.theme}</p>
       <p>{layout?.pathname}</p>
+      <div>
+        <Button type="primary" onClick={getUser}>
+          获取数据
+        </Button>
+      </div>
     </div>
   );
 }
