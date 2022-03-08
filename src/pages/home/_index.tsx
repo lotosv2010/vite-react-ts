@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useStore, useTitle } from '@/hooks';
 import { observer } from 'mobx-react';
+import { getMapData } from '@/apis/home';
 
 function Index() {
   const global = useStore('globalStore');
@@ -8,15 +9,21 @@ function Index() {
 
   const setLan = async () => {
     const res = await global.setLanguage('en');
-    console.log(import.meta.env);
+    // console.log(import.meta.env);
     console.log(res);
     return res;
   };
+  const getData = async () => {
+    try {
+      const res = await getMapData({ id: 111 });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useTitle();
   useEffect(() => {
-    fetch('/api/datav-res/datav/map.json')
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    getData();
     setTimeout(() => {
       global.setTheme('dark');
       setLan();
