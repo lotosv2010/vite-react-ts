@@ -3,9 +3,10 @@ import { VITE_APP_VISUALIZER } from '../index';
 import configVisualizerConfig from './visualizer';
 import configHtml from './html';
 import configCompression from './compression';
+import configLegacy from './legacy';
 
 export default function createVitePlugins() {
-  const vitePlugins: any[] = [configEslint(), configHtml(), configCompression()];
+  const vitePlugins: any[] = [configEslint(), configHtml(), configCompression(), configLegacy()];
   VITE_APP_VISUALIZER && vitePlugins.push(configVisualizerConfig());
   return vitePlugins;
 }
