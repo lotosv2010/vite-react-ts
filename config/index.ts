@@ -29,3 +29,7 @@ export const VITE_APP_DEBUGGER = true;
  * @description 打包环境下是否生成source map 文件
  */
 export const VITE_APP_SOURCEMAP = false;
+/**
+ * @description 打包环境下是否生成兼容低版本浏览器
+ */
+export const VITE_APP_LEGACY = true;

@@ -7,9 +7,9 @@ import { VITE_APP_BASE, VITE_APP_PORT, VITE_APP_OPEN } from './config';
 import build from './config/build';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }: ConfigEnv) => {
+export default defineConfig(({ command, mode }: ConfigEnv) => {
   return {
-    plugins: [react(), ...createVitePlugins()],
+    plugins: [react(), ...createVitePlugins(command)],
     css: cssOption,
     resolve: {
       alias: {

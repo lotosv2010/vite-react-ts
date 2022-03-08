@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useStore, useTitle } from '@/hooks';
 import { observer } from 'mobx-react';
-import { getMapData } from '@/apis/home';
+import { getMapData, getUserInfo } from '@/apis/home';
 
 function Index() {
   const global = useStore('globalStore');
@@ -21,9 +21,18 @@ function Index() {
       console.log(error);
     }
   };
+  const getUser = async () => {
+    try {
+      const res = await getUserInfo({ id: 1001 });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useTitle();
   useEffect(() => {
     getData();
+    getUser();
     setTimeout(() => {
       global.setTheme('dark');
       setLan();
