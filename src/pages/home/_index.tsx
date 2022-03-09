@@ -3,10 +3,12 @@ import { useStore, useTitle } from '@/hooks';
 import { observer } from 'mobx-react';
 import { getMapData, getUserInfo } from '@/apis/home';
 import { Button } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 function Index() {
   const global = useStore('globalStore');
   const layout = useStore('layoutStore');
+  const { t } = useTranslation();
 
   const setLan = async () => {
     const res = await global.setLanguage('en');
@@ -42,11 +44,12 @@ function Index() {
   return (
     <div>
       <p>Home Index</p>
-      <p>{global?.theme}</p>
-      <p>{layout?.pathname}</p>
+      <p>Mobx 测试：{global?.theme}</p>
+      <p>Mobx 测试：{layout?.pathname}</p>
+      <p>语言切换测试：{t('methods.hook')}</p>
       <div>
         <Button type="primary" onClick={getUser}>
-          获取数据
+          axios请求测试
         </Button>
       </div>
     </div>
