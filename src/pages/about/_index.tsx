@@ -1,9 +1,13 @@
 import React, { useEffect } from 'react';
-import { observer, inject } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { getAboutInfo } from '@/apis/about';
-import { withTranslation } from 'react-i18next';
+import { useStore } from '@/hooks';
+import { useTranslation } from 'react-i18next';
 
-function About({ globalStore, layoutStore, t }: any) {
+function About() {
+  const globalStore = useStore('globalStore');
+  const layoutStore = useStore('layoutStore');
+  const { t } = useTranslation();
   const getData = async () => {
     try {
       const res = await getAboutInfo();
@@ -25,4 +29,4 @@ function About({ globalStore, layoutStore, t }: any) {
   );
 }
 
-export default withTranslation()(inject(...['globalStore', 'layoutStore'])(observer(About)));
+export default observer(About);

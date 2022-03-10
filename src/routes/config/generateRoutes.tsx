@@ -67,7 +67,7 @@ function mapPathConfigToRoute(cfg: Record<string, any>): any[] {
  * @param importer
  * @returns
  */
-export function wrapSuspense(importer: any) {
+function wrapSuspense(importer: any) {
   if (!importer) {
     return undefined;
   }
