@@ -2585,7 +2585,485 @@ export default BasicLayout;
 
 # 十七、国际化配置
 
+## 安装依赖
+
+```shell
+# npm
+npm install react-i18next i18next --save
+# 如果需要检测当前浏览器的语言或者从服务器获取配置资源可以安装下面依赖
+npm install i18next-http-backend i18next-browser-languagedetector --save
+```
+
+## 初始化配置
+
+- 在src文件夹中，新建locales文件夹，添加i18n.ts和resources.ts文件，对i18n进行初始化操作及插件配置
+
+```typescript
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import Backend from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import resources from './resources';
+// don't want to use this?
+// have a look at the Quick start guide
+// for passing in lng and translations on init
+
+i18n
+  // load translation using http -> see /public/locales (i.e. https://github.com/i18next/react-i18next/tree/master/example/react/public/locales)
+  // learn more: https://github.com/i18next/i18next-http-backend
+  .use(Backend)
+  // detect user language
+  // learn more: https://github.com/i18next/i18next-browser-languageDetector
+  .use(LanguageDetector)
+  // pass the i18n instance to react-i18next.
+  .use(initReactI18next)
+  // init i18next
+  // for all options read: https://www.i18next.com/overview/configuration-options
+  .init({
+    fallbackLng: 'zh',
+    lng: 'zh',
+    debug: true,
+    resources: resources,
+    interpolation: {
+      escapeValue: false, // not needed for react as it escapes by default
+    },
+  });
+```
+
+```typescript
+import en from './json/en.json';
+import ja from './json/ja.json';
+import zh from './json/zh.json';
+
+const resources = {
+  ja: {
+    translation: ja,
+  },
+  en: {
+    translation: en,
+  },
+  zh: {
+    translation: zh,
+  },
+};
+export default resources;
+```
+
+## 多语言配置
+
+- 在src/locales文件夹中，新建json文件夹，添加多语言配置文件
+
+```json
+{
+  "欢迎使用 react-i18next": "Welcome to react using react-i18next",
+  "切换语言": "change language",
+  "切换到中文": "change to Chinese",
+  "切换到英文": "change to English",
+  "切换到日文": "change to Japenese",
+  "methods": {
+    "renderProps": "change language with render props",
+    "hook": "change language with hook",
+    "hoc": "change language with hoc"
+  }
+ }
+```
+
+```json
+{
+  "欢迎使用 react-i18next": "ご利用を歓迎する react-i18next",
+  "切换语言": "言語を切り替える",
+  "切换到中文": "中国語に切り替える",
+  "切换到英文": "英文に切り替える",
+  "切换到日文": "日本語に切り替える",
+  "methods": {
+    "renderProps": "renderProps方式で言語を変換する",
+    "hook": "hook方式で言語を変換する",
+    "hoc": "hoc方式で言語を変換する"
+  }
+}
+```
+
+```json
+{
+  "methods": {
+    "renderProps": "用renderProps转换",
+    "hook": "用hook转换",
+    "hoc": "用hoc转换"
+  }
+}
+```
+
+## 入口文件配置
+
+```tsx
+import PageRoutes from '@/components/PageRoutes';
+import { BrowserRouter } from 'react-router-dom';
+import routes from '@/routes/routes';
+import './locales/i18n';
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <PageRoutes routes={routes} />
+    </BrowserRouter>
+  );
+};
+
+export default App;
+```
+
+## 切换语言
+
+- 通过RenderProps的方式国际化组件
+
+```tsx
+import React from 'react';
+import { Link, Outlet } from 'react-router-dom';
+import { Layout, Menu, Dropdown, Avatar } from 'antd';
+import { HomeOutlined, DashboardOutlined, UserOutlined, TranslationOutlined } from '@ant-design/icons';
+import { Translation } from 'react-i18next';
+
+const { Header, Sider, Content } = Layout;
+const { SubMenu } = Menu;
+
+function BasicLayout() {
+  return (
+    <Translation>
+      {(t, { i18n }) => (
+        <Layout style={{ height: '100vh' }}>
+          <Header style={{ color: '#fff', display: 'flex', justifyContent: 'space-between' }}>
+            <div className="left">
+              <span style={{ fontSize: 24 }}>LOGO</span>
+            </div>
+            <div
+              className="right"
+              style={{ width: '50%', display: 'flex', alignItems: 'center', justifyContent: 'end' }}
+            >
+              <Dropdown
+                overlay={
+                  <Menu onClick={({ key }) => i18n.changeLanguage(key)}>
+                    <Menu.Item key="zh">{t('切换到中文')}</Menu.Item>
+                    <Menu.Item key="en">{t('切换到英文')}</Menu.Item>
+                    <Menu.Item key="ja">{t('切换到日文')}</Menu.Item>
+                  </Menu>
+                }
+              >
+                <TranslationOutlined style={{ width: 100, fontSize: 20 }} />
+              </Dropdown>
+              <Avatar style={{ backgroundColor: '#f56a00' }}>Tom</Avatar>
+            </div>
+          </Header>
+          <Layout>
+            <Sider width={200} className="layout-sider">
+              <Menu
+                mode="inline"
+                theme="dark"
+                defaultSelectedKeys={['/']}
+                style={{ height: '100%', borderRight: 0 }}
+                defaultOpenKeys={['/']}
+              >
+                <Menu.Item key="/" icon={<DashboardOutlined />} title="Dashboard">
+                  <Link to="/">Dashboard</Link>
+                </Menu.Item>
+                <SubMenu key="home" icon={<HomeOutlined />} title="首页">
+                  <Menu.Item key="/home">
+                    <Link to="/home">home</Link>
+                  </Menu.Item>
+                  <Menu.Item key="/home/child">
+                    <Link to="/home/child">child</Link>
+                  </Menu.Item>
+                  <Menu.Item key="/home/child/hello-world">
+                    <Link to="/home/child/hello-world">hello</Link>
+                  </Menu.Item>
+                  <Menu.Item key="/home/child/1234">
+                    <Link to="/home/child/1234">name</Link>
+                  </Menu.Item>
+                </SubMenu>
+                <SubMenu key="about" icon={<UserOutlined />} title="关于">
+                  <Menu.Item key="/about">
+                    <Link to="/about">about</Link>
+                  </Menu.Item>
+                </SubMenu>
+              </Menu>
+            </Sider>
+            <Layout className="layout-content">
+              <Content style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <Outlet />
+              </Content>
+            </Layout>
+          </Layout>
+        </Layout>
+      )}
+    </Translation>
+  );
+}
+
+export default BasicLayout;
+```
+
+- 在hook中使用react-i18next国际化
+
+```tsx
+import React, { useEffect } from 'react';
+import { useStore, useTitle } from '@/hooks';
+import { observer } from 'mobx-react';
+import { getMapData, getUserInfo } from '@/apis/home';
+import { Button } from 'antd';
+import { useTranslation } from 'react-i18next';
+
+function Index() {
+  const global = useStore('globalStore');
+  const layout = useStore('layoutStore');
+  const { t } = useTranslation();
+
+  const setLan = async () => {
+    const res = await global.setLanguage('en');
+    // console.log(import.meta.env);
+    console.log(res);
+    return res;
+  };
+  const getData = async () => {
+    try {
+      const res = await getMapData({ id: 111 });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getUser = async () => {
+    try {
+      const res = await getUserInfo({ id: 1001 });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useTitle();
+  useEffect(() => {
+    getData();
+    setTimeout(() => {
+      global.setTheme('dark');
+      setLan();
+      layout.setPathname('/about');
+    }, 1000);
+  }, []);
+  return (
+    <div>
+      <p>Home Index</p>
+      <p>Mobx 测试：{global?.theme}</p>
+      <p>Mobx 测试：{layout?.pathname}</p>
+      <p>语言切换测试：{t('methods.hook')}</p>
+      <div>
+        <Button type="primary" onClick={getUser}>
+          axios请求测试
+        </Button>
+      </div>
+    </div>
+  );
+}
+
+export default observer(Index);
+```
+
+- 使用高阶组件（Hoc）的方式处理国际化
+
+```tsx
+import React, { useEffect } from 'react';
+import { observer, inject } from 'mobx-react';
+import { getAboutInfo } from '@/apis/about';
+import { withTranslation } from 'react-i18next';
+
+function About({ globalStore, layoutStore, t }: any) {
+  const getData = async () => {
+    try {
+      const res = await getAboutInfo();
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+  return (
+    <div>
+      <p>About</p>
+      <p>Mobx 测试：{globalStore.theme}</p>
+      <p>Mobx 测试：{layoutStore.pathname}</p>
+      <p>语言切换测试：{t('methods.hoc')}</p>
+    </div>
+  );
+}
+
+export default withTranslation()(inject(...['globalStore', 'layoutStore'])(observer(About)));
+```
+
 # 十八、jest
+
+## 单元测试
+
+### 安装依赖
+
+```shell
+npm install @testing-library/jest-dom @testing-library/react @types/jest jest ts-jest identity-obj-proxy -D
+```
+
+### jest 配置
+
+- 新增jest.config.js文件，同src同级，且编写如下代码
+
+```javascript
+module.exports = {
+  preset: 'ts-jest',
+  roots: ['<rootDir>'],
+  moduleDirectories: ['node_modules', 'src'],
+  extensionsToTreatAsEsm: ['.ts', '.tsx'],
+  globals: {
+    'ts-jest': {
+      // useESM: true,
+    },
+  },
+  transform: {
+    '^.+\\.tsx$': 'ts-jest',
+    '^.+\\.ts$': 'ts-jest',
+  },
+  testRegex: '(tests.unit.*.(test|spec)).(jsx?|tsx?)$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  collectCoverage: true,
+  collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx,js,jsx}'],
+  coverageDirectory: '<rootDir>/coverage/',
+  verbose: true,
+  testTimeout: 30000,
+  testEnvironment: 'jsdom',
+  coveragePathIgnorePatterns: ['<rootDir>/node_modules/', '(.*).d.ts$'],
+  moduleNameMapper: {
+    '^@/(.*)': '<rootDir>/src/$1',
+    '^.+\\.module\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$': 'identity-obj-proxy',
+  },
+};
+```
+
+### ESLint 配置
+
+- .eslintrc.js 中，新增如下代码
+
+```javascript
+module.exports = {
+  ....
+  env: {
+    ....
+    jest: true,
+  },
+  ....
+}
+```
+
+### 脚本配置
+
+```json
+"test": "jest --colors --passWithNoTests",
+"test:watch": "jest --watchAll",
+"coverage": "jest --coverage",
+```
+
+### jest 使用
+
+- 在src 同级新建tests目录，在tests目录中继续添加unit目录，新建App.test.tsx文件，并编写如下代码
+
+```tsx
+import React from 'react';
+import { render, cleanup, getByTestId } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import App from '../../src/App';
+
+afterEach(cleanup);
+
+describe('<App />', () => {
+  it('renders without errors', () => {
+    const { container } = render(<App />);
+    // a标签含有data-testid='aNoDisabled',进行检查
+    expect(getByTestId(container, 'aNoDisabled')).not.toBeDisabled();
+  });
+});
+```
+
+## E2E 测试
+
+### 安装依赖
+
+```shell
+npm install cypress -D
+```
+
+### cypress 配置
+
+- 新增cypress.json文件，同src同级，且编写如下代码
+
+```javascript
+{
+  "pluginsFile": "tests/e2e/plugins/index.ts",
+  "video":false
+}
+```
+
+- 在src 同级新建tests目录，在tests目录中继续添加e2e目录，新建plugins/index.ts文件，并编写如下代码
+
+```typescript
+module.exports = (on: any, config: any) => {
+  // `on` is used to hook into various events Cypress emits
+  // `config` is the resolved Cypress config
+  return Object.assign({}, config, {
+    // fixtures路径
+    fixturesFolder: 'tests/e2e/fixtures',
+    // 测试脚本文件夹
+    integrationFolder: 'tests/e2e/specs',
+    // 从 cy.screenshot() 命令或在 cypress 运行期间测试失败后保存屏幕截图的文件夹路径
+    screenshotsFolder: 'tests/e2e/screenshots',
+    // cypress 运行期间保存视频的文件夹路径
+    videosFolder: 'tests/e2e/videos',
+    // 在加载测试文件之前加载的文件路径。 这个文件被编译和捆绑。 （通过 false 禁用）
+    supportFile: 'tests/e2e/support/index.ts',
+  });
+};
+```
+
+- 在src 同级新建tests目录，在tests目录中继续添加e2e目录，新建support/index.ts文件，并编写如下代码
+
+```typescript
+module.exports = {};
+```
+
+### 脚本配置
+
+```json
+"test": "npm run test:unit && npm run test:e2e",
+"test:unit": "jest --colors --passWithNoTests",
+"test:watch": "jest --watchAll",
+"test:coverage": "jest --coverage",
+"test:e2e": "cypress open",
+"test:e2e-run": "cypress run ",
+```
+
+### cypress 使用
+
+- 在src 同级新建tests目录，在tests目录中继续添加e2e目录，新建specs/index.specs.tsx文件，并编写如下代码
+
+```tsx
+describe('home', () => {
+  it('button click', () => {
+    cy.visit('http://localhost:3001');
+    cy.contains('main div', 'Index');
+  });
+});
+```
+
+## 参考
+
+## TODO LIST
+
+- **待解决问题**
+  - **解决 jest 单元测试不支持 import.meta.env**
+  - **cypress 运行不生效**
 
 # 十九、目录结构
 
