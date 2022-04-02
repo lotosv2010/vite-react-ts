@@ -3,3 +3,6 @@
 **/*.ejs
 **/*.html
 package.json
+
+.DS_Store
+dist
