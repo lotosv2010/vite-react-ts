@@ -1,3 +1,8 @@
-import { post } from '@/apis/request';
+import request from '@/service';
 
-export const getAboutInfo = (param?: object) => post('/api/getAboutInfo', param);
+export const getAboutInfo = (data?: object) =>
+  request({
+    url: '/api/getAboutInfo',
+    method: 'POST',
+    data,
+  });
