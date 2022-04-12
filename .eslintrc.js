@@ -23,6 +23,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:react-hooks/recommended',
+    'plugin:@typescript-eslint/recommended', // typescript-eslint推荐规则,
     'plugin:jsx-a11y/recommended',
     'plugin:prettier/recommended', // Make sure this is always the last element in the array.
   ],
@@ -34,6 +35,7 @@ module.exports = {
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     'simple-import-sort/imports': 'off',
+    '@typescript-eslint/no-explicit-any': 'off', // 可以使用 any 类型
     'simple-import-sort/exports': 'error',
     'jsx-a11y/anchor-is-valid': [
       'error',

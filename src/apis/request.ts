@@ -80,7 +80,7 @@ const instance = createInstance();
  * @param params  请求参数
  * @returns {Promise}
  */
-export function get(url: any, params?: Object): Promise<unknown> {
+export function get(url: any, params?: Record<string, any>): Promise<unknown> {
   return new Promise((resolve, reject) => {
     instance
       .get(url, {
@@ -104,7 +104,7 @@ export function get(url: any, params?: Object): Promise<unknown> {
  * @returns {Promise}
  */
 
-export function post(url: any, data?: Object): Promise<unknown> {
+export function post(url: any, data?: Record<string, any>): Promise<unknown> {
   return new Promise((resolve, reject) => {
     instance.post(url, data).then(
       (response) => {
@@ -125,7 +125,7 @@ export function post(url: any, data?: Object): Promise<unknown> {
  * @param data
  * @returns {Promise}
  */
-export function patch(url: any, data?: Object): Promise<unknown> {
+export function patch(url: any, data?: Record<string, any>): Promise<unknown> {
   return new Promise((resolve, reject) => {
     instance.patch(url, data).then(
       (response) => {
@@ -145,7 +145,7 @@ export function patch(url: any, data?: Object): Promise<unknown> {
  * @param data
  * @returns {Promise}
  */
-export function put(url: any, data?: Object): Promise<unknown> {
+export function put(url: any, data?: Record<string, any>): Promise<unknown> {
   return new Promise((resolve, reject) => {
     instance.put(url, data).then(
       (response) => {
@@ -165,7 +165,7 @@ export function put(url: any, data?: Object): Promise<unknown> {
  * @param params
  * @returns {Promise}
  */
-export function del(url: any, params?: Object): Promise<unknown> {
+export function del(url: any, params?: Record<string, any>): Promise<unknown> {
   return new Promise((resolve, reject) => {
     instance.delete(url, { params }).then(
       (response) => {
@@ -185,7 +185,7 @@ export function del(url: any, params?: Object): Promise<unknown> {
  * @param param
  * @returns {Promise}
  */
-export default function (fetch: 'get' | 'post', url: string, param?: Object): Promise<unknown> {
+export default function (fetch: 'get' | 'post', url: string, param?: Record<string, any>): Promise<unknown> {
   const fns = { get, post };
   return fns[fetch](url, param);
 }
