@@ -5,16 +5,15 @@ module.exports = {
   extensionsToTreatAsEsm: ['.ts', '.tsx'],
   globals: {
     'ts-jest': {
-      // useESM: true,
+      useESM: true,
     },
   },
   transform: {
-    '^.+\\.tsx$': 'ts-jest',
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.tsx?$': 'ts-jest',
   },
   testRegex: '(tests.unit.*.(test|spec)).(jsx?|tsx?)$',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: ['<rootDir>/src/**/*.{ts,tsx,js,jsx}'],
   coverageDirectory: '<rootDir>/coverage/',
   verbose: true,
