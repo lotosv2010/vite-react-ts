@@ -1,34 +1,23 @@
-import { defineConfig, loadEnv, ConfigEnv } from 'vite';
+import { defineConfig, ConfigEnv } from 'vite';
 import react from '@vitejs/plugin-react';
-import createVitePlugins from './config/plugins/index';
-import cssOption from './config/style';
 import path from 'path';
-import { VITE_APP_BASE, VITE_APP_PORT, VITE_APP_OPEN } from './config';
-import build from './config/build';
+
+import createVitePlugins from './config/plugins/index';
+import createServer from './config/server';
+import createBuild from './config/build';
+import createCss from './config/style';
+import { VITE_APP_BASE } from './config';
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }: ConfigEnv) => {
-  return {
-    plugins: [react(), ...createVitePlugins(command)],
-    css: cssOption,
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, 'src'),
-      },
+export default defineConfig(({ command, mode }: ConfigEnv) => ({
+  plugins: [react(), ...createVitePlugins(command)],
+  base: VITE_APP_BASE,
+  server: createServer(mode),
+  build: createBuild(),
+  css: createCss(),
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
     },
-    base: VITE_APP_BASE,
-    server: {
-      host: true,
-      port: VITE_APP_PORT,
-      open: VITE_APP_OPEN,
-      proxy: {
-        '/api': {
-          target: loadEnv(mode, process.cwd()).VITE_API_HOST,
-          changeOrigin: true,
-          rewrite: (path: any) => path.replace(/^\/api/, ''),
-        },
-      },
-    },
-    build,
-  };
-});
+  },
+}));

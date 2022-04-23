@@ -2,7 +2,7 @@ import request from '@/service';
 
 export const getMapData = (data?: any) => {
   return request({
-    url: '/api/datav-res/datav/map.json',
+    url: '/datav-res/datav/map.json',
     method: 'GET',
     data,
     interceptors: {
@@ -20,7 +20,7 @@ export const getMapData = (data?: any) => {
 
 export const getUserInfo = (data?: object) =>
   request({
-    url: '/api/getUserInfo',
+    url: '/getUserInfo',
     method: 'POST',
     data,
   });

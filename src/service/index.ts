@@ -13,7 +13,7 @@ interface IRequest<T> extends RequestConfig<IResponse<any>> {
 }
 
 const request = new Request({
-  baseURL: import.meta.env.BASE_URL,
+  baseURL: import.meta.env.VITE_API_HOST,
   timeout: 1000 * 60 * 5,
   interceptors: {
     // 请求拦截器
@@ -38,6 +38,12 @@ const req = <D = any, T = any>(config: IRequest<D>) => {
     config.params = config.data;
   }
   return request.request<IResponse<T>>(config);
+};
+export const upload = (url: string, data: File) => {
+  return request.upload(url, data);
+};
+export const download = (url: string) => {
+  return request.download(url);
 };
 // 取消请求
 export const cancelRequest = (url: string | string[]) => {

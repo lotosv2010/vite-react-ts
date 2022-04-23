@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import type { AxiosInstance, AxiosRequestConfig } from 'axios';
 import type { RequestConfig, RequestInterceptors, CancelRequestSource } from './types';
+import NProgress from 'nprogress';
 
 class Request {
   // axios 实例
@@ -76,6 +77,7 @@ class Request {
   }
   request<T>(config: RequestConfig<T>): Promise<T> {
     return new Promise((resolve, reject) => {
+      NProgress.start();
       // 如果我们为单个请求设置拦截器，这里使用单个请求的拦截器
       if (config.interceptors?.requestInterceptors) {
         config = config.interceptors.requestInterceptors(config);
@@ -97,16 +99,46 @@ class Request {
           if (config.interceptors?.responseInterceptors) {
             res = config.interceptors.responseInterceptors(res);
           }
-
+          // NProgress.done();
           resolve(res);
         })
         .catch((err: any) => {
+          // NProgress.done();
           reject(err);
         })
         .finally(() => {
+          NProgress.done();
           url && this.delUrl(url);
         });
     });
+  }
+  upload(url: string, data: File) {
+    return new Promise((resolve, reject) => {
+      NProgress.start();
+      this.request({
+        url,
+        method: 'POST',
+        data,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+        .then((res: any) => {
+          NProgress.done();
+          resolve(res.data);
+        })
+        .catch((err) => {
+          NProgress.done();
+          reject(err.data);
+        });
+    });
+  }
+  download(url: string) {
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = url;
+    iframe.onload = function () {
+      document.body.removeChild(iframe);
+    };
+    document.body.appendChild(iframe);
   }
   // 取消请求
   cancelRequest(url: string | string[]) {

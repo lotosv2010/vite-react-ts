@@ -1,4 +1,3 @@
-$bg: #282c34;
 @mixin flexContainer($dir: column, $jc: center, $align: center) {
   display: flex;
   flex-direction: $dir;
