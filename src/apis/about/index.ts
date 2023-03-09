@@ -2,7 +2,7 @@ import request from '@/service';
 
 export const getAboutInfo = (data?: object) =>
   request({
-    url: '/getAboutInfo',
-    method: 'POST',
+    url: '/users',
+    method: 'GET',
     data,
   });

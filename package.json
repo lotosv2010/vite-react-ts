@@ -38,7 +38,8 @@
     "lint:prettier": "prettier --check \"src/**/*\" --end-of-line auto",
     "lint:style": "stylelint --fix \"**/*.{vue,less,postcss,css,scss}\" --cache --cache-location node_modules/.cache/stylelint/",
     "lint-staged": "lint-staged",
-    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx "
+    "lint-staged:js": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "prepare": "husky install"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -81,14 +82,16 @@
     "@vitejs/plugin-legacy": "^1.7.1",
     "@vitejs/plugin-react": "^1.0.7",
     "cypress": "^9.5.1",
-    "eslint": "^8.10.0",
+    "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.4.0",
+    "eslint-define-config": "^1.16.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.2",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "husky": ">=7",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^27.5.1",
     "less": "^4.1.2",
@@ -114,7 +117,6 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-html": "^3.1.0",
     "vite-plugin-mock": "^2.9.6",
-    "vite-plugin-style-import": "^2.0.0",
-    "yorkie": "^2.0.0"
+    "vite-plugin-style-import": "^2.0.0"
   }
 }

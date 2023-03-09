@@ -18,7 +18,7 @@ function Index() {
   };
   const getData = async () => {
     try {
-      const res = await getMapData({ id: 111 });
+      const res = await getMapData({ id: 11 });
       console.log(res);
     } catch (error) {
       console.log(error);
@@ -26,7 +26,7 @@ function Index() {
   };
   const getUser = async () => {
     try {
-      const res = await getUserInfo({ id: 1001 });
+      const res = await getUserInfo({ id: 1 });
       console.log(res);
     } catch (error) {
       console.log(error);
